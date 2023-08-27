@@ -4,6 +4,7 @@ import factory.RouteCallback;
 import factory.RouteFactory;
 import model.Trip;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -50,13 +51,22 @@ public class Util {
         return hashTrips;
     }
 
-    private static String getDateStr(Date date) {
+    public static Date getDateFromString(String strDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss", Locale.getDefault());
+        try {
+            return formatter.parse(strDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String getDateString(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
         return formatter.format(date);
     }
 
-    private static String generateId(Date date, String companyId, String busId, int panNumber) {
-        return getDateStr(date) +
+    private static String generateId(Date date, String companyId, String busId, String panNumber) {
+        return getDateString(date) +
                 companyId +
                 busId +
                 panNumber;

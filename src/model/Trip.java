@@ -10,9 +10,9 @@ public class Trip {
     String stopId;
     String companyId;
     String busId;
-    int panNumber;
+    String panNumber;
 
-    public Trip(int id, Date date, String tapType, String stopId, String companyId, String busId, int panNumber) {
+    public Trip(int id, Date date, String tapType, String stopId, String companyId, String busId, String panNumber) {
         this.id = id;
         this.date = date;
         this.tapType = tapType;
@@ -46,7 +46,7 @@ public class Trip {
         return busId;
     }
 
-    public int getPanNumber() {
+    public String getPanNumber() {
         return panNumber;
     }
 
