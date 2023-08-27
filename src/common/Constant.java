@@ -7,7 +7,7 @@ public class Constant {
     public static final String OFF = "OFF";
 
     // Trip Statuses
-    public static final String COMPLETED = "COMPLETE";
+    public static final String COMPLETE = "COMPLETE";
     public static final String INCOMPLETE = "INCOMPLETE";
     public static final String CANCELLED = "CANCELLED";
 
@@ -20,5 +20,9 @@ public class Constant {
     public static final String COST_325 = "$3.25";
     public static final String COST_550 = "$5.50";
     public static final String COST_730 = "$7.30";
+
+    // Date Formats
+    public static final String DD_M_YYYY_HH_MM_SS = "dd-M-yyyy hh:mm:ss";
+    public static final String DD_M_YYYY = "dd-M-yyyy";
 
 }

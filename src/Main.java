@@ -1,13 +1,14 @@
 import common.Util;
 import model.Trip;
+import model.TripLog;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
+
     public static void main(String[] args) {
         String file = "res/input.csv";
         String line;
@@ -29,12 +30,24 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
         HashMap<String, ArrayList<Trip>> generatedTripLogs = Util.generateTrips(tripLogs);
-        for (Map.Entry<String, ArrayList<Trip>> set : generatedTripLogs.entrySet()) {
-            System.out.println(set.getKey() + " = " + set.getValue());
+        ArrayList<TripLog> finalTripLog = Util.generateFinalTripLogs(generatedTripLogs);
+        for (TripLog item : finalTripLog) {
+            System.out.println(
+                    item.getStatus() + " " +
+                    item.getStartTimeStr() + " " +
+                    item.getEndTimeStr() + " " +
+                    item.getDurationSec() + " " +
+                    item.getFromStopId() + " " +
+                    item.getToStopId() + " " +
+                    item.getChargeAmount() + " " +
+                    item.getCompanyId() + " " +
+                    item.getBusId() + " " +
+                    item.getPanNumber()
+            );
         }
     }
 
