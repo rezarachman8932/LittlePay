@@ -2,13 +2,13 @@ package factory.route;
 
 import common.Constant;
 import data.DataGenerator;
-import factory.RouteCallback;
+import factory.RouteBase;
 import model.Route;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Route1 implements RouteCallback {
+public class Route1 extends RouteBase {
 
     @Override
     public String getMaximumCost() {

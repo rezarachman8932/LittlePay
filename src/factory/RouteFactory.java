@@ -7,30 +7,18 @@ import factory.route.Route3;
 
 public class RouteFactory {
 
-    public RouteCallback getRoute(String startStopsId) {
-//        switch (startStopsId) {
-//            case Constant.STOP1 -> {
-//                return new Route1();
-//            }
-//            case Constant.STOP2 -> {
-//                return new Route2();
-//            }
-//            case Constant.STOP3 -> {
-//                return new Route3();
-//            }
-//        }
-
-        if (startStopsId != null) {
-            if (startStopsId.equals(Constant.STOP1)) {
+    public static RouteBase getRoute(String startStopsId) {
+        switch (startStopsId) {
+            case Constant.STOP1 -> {
                 return new Route1();
-            } else if (startStopsId.equals(Constant.STOP2)) {
+            }
+            case Constant.STOP2 -> {
                 return new Route2();
-            } else if (startStopsId.equals(Constant.STOP3)) {
+            }
+            case Constant.STOP3 -> {
                 return new Route3();
             }
         }
-
-
 
         return null;
     }

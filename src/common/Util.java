@@ -1,6 +1,6 @@
 package common;
 
-import factory.RouteCallback;
+import factory.RouteBase;
 import factory.RouteFactory;
 import model.Trip;
 import model.TripLog;
@@ -55,20 +55,39 @@ public class Util {
                 Trip startTripStops = trips.get(0);
                 Trip endTripStops = trips.get(1);
 
-                TripLog newTripLog = new TripLog(
-                        getDateString(startTripStops.getDate(), Constant.DD_M_YYYY_HH_MM_SS),
-                        getDateString(endTripStops.getDate(), Constant.DD_M_YYYY_HH_MM_SS),
-                        generateDurationInSecond(startTripStops.getDate(), endTripStops.getDate()),
-                        startTripStops.getStopId(),
-                        endTripStops.getStopId(),
-                        getCompleteRouteCost(startTripStops.getStopId(), endTripStops.getStopId()),
-                        startTripStops.getCompanyId(),
-                        endTripStops.getBusId(),
-                        startTripStops.getPanNumber(),
-                        Constant.COMPLETE
-                );
+                boolean validStartStop = !startTripStops.getStopId().equals(endTripStops.getStopId());
 
-                tripLogs.add(newTripLog);
+                if (validStartStop) {
+                    TripLog newTripLog = new TripLog(
+                            getDateString(startTripStops.getDate(), Constant.DD_M_YYYY_HH_MM_SS),
+                            getDateString(endTripStops.getDate(), Constant.DD_M_YYYY_HH_MM_SS),
+                            generateDurationInSecond(startTripStops.getDate(), endTripStops.getDate()),
+                            startTripStops.getStopId(),
+                            endTripStops.getStopId(),
+                            getCompleteRouteCost(startTripStops.getStopId(), endTripStops.getStopId()),
+                            startTripStops.getCompanyId(),
+                            endTripStops.getBusId(),
+                            startTripStops.getPanNumber(),
+                            Constant.COMPLETE
+                    );
+
+                    tripLogs.add(newTripLog);
+                } else {
+                    TripLog newTripLog = new TripLog(
+                            getDateString(startTripStops.getDate(), Constant.DD_M_YYYY_HH_MM_SS),
+                            getDateString(endTripStops.getDate(), Constant.DD_M_YYYY_HH_MM_SS),
+                            generateDurationInSecond(startTripStops.getDate(), endTripStops.getDate()),
+                            startTripStops.getStopId(),
+                            endTripStops.getStopId(),
+                            getCompleteRouteCost(startTripStops.getStopId(), endTripStops.getStopId()),
+                            startTripStops.getCompanyId(),
+                            endTripStops.getBusId(),
+                            startTripStops.getPanNumber(),
+                            Constant.CANCELLED
+                    );
+
+                    tripLogs.add(newTripLog);
+                }
             } else {
                 Trip startTripStops = trips.get(0);
 
@@ -102,20 +121,18 @@ public class Util {
     }
 
     private static String getCompleteRouteCost(String startRouteId, String endRouteId) {
-        RouteFactory factory = new RouteFactory();
-        RouteCallback route = factory.getRoute(startRouteId);
-        return route.getCostBetweenTwoStops(endRouteId);
+        RouteBase base = RouteFactory.getRoute(startRouteId);
+        return base != null ? base.getCostBetweenTwoStops(endRouteId) : null;
     }
 
     private static String getMaxIncompleteRouteCost(String startRouteId) {
-        RouteFactory factory = new RouteFactory();
-        RouteCallback route = factory.getRoute(startRouteId);
-        return route.getMaximumCost();
+        RouteBase base = RouteFactory.getRoute(startRouteId);
+        return base != null ? base.getMaximumCost() : null;
     }
 
     private static long generateDurationInSecond(Date date1, Date date2) {
-        long diffInSeconds = Math.abs(date2.getTime() - date1.getTime());
-        return TimeUnit.DAYS.convert(diffInSeconds, TimeUnit.SECONDS);
+        long diffInSeconds = date2.getTime() - date1.getTime();
+        return TimeUnit.MILLISECONDS.toSeconds(diffInSeconds);
     }
 
     private static String getDateString(Date date, String format) {
